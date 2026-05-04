@@ -40,7 +40,6 @@ body {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
     position: relative;
-    group: true;
 }
 
 .color-card:hover {
@@ -127,6 +126,134 @@ body {
     box-shadow: 0 0 20px rgba(34, 197, 94, 0.5);
 }
 
+/* Basic Color Card */
+.basic-color-card {
+    cursor: pointer;
+    border-radius: 16px;
+    padding: 20px;
+    text-align: center;
+    transition: all 0.3s ease;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.2), rgba(255, 255, 255, 0.1));
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    font-weight: 600;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    min-height: 120px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+}
+
+.basic-color-card:hover {
+    transform: translateY(-6px) scale(1.05);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.color-name {
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: capitalize;
+}
+
+.color-count {
+    font-size: 12px;
+    opacity: 0.7;
+}
+
+/* Shade Card */
+.shade-card {
+    border-radius: 12px;
+    padding: 12px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.2), rgba(255, 255, 255, 0.1));
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    min-height: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.shade-card:hover {
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+}
+
+.shade-hex {
+    font-family: 'Courier New', monospace;
+    font-weight: 700;
+    font-size: 12px;
+    margin-top: 8px;
+    word-break: break-all;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.shade-hex:hover {
+    color: #FFD700;
+}
+
+.copy-hex-btn {
+    background: rgba(59, 130, 246, 0.3);
+    border: 1px solid rgba(59, 130, 246, 0.5);
+    color: #3B82F6;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-top: 6px;
+}
+
+.copy-hex-btn:hover {
+    background: rgba(59, 130, 246, 0.5);
+    border-color: rgba(59, 130, 246, 0.8);
+    transform: scale(1.05);
+}
+
+/* Metallic Card Effect */
+.metallic-card {
+    background: linear-gradient(135deg, #E8E8E8 0%, #F0F0F0 50%, #D9D9D9 100%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.3),
+                0 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+.metallic-card.silver {
+    background: linear-gradient(135deg, #C0C0C0 0%, #E8E8E8 50%, #A8A8A8 100%);
+}
+
+.metallic-card.gold {
+    background: linear-gradient(135deg, #FFD700 0%, #FFF8DC 50%, #DAA520 100%);
+}
+
+.metallic-card.bronze {
+    background: linear-gradient(135deg, #CD7F32 0%, #D4AF37 50%, #8B4513 100%);
+}
+
+/* Neon Card Effect */
+.neon-card {
+    animation: neon-glow 2s ease-in-out infinite;
+    border: 2px solid;
+    box-shadow: 0 0 10px currentColor, inset 0 0 10px currentColor;
+}
+
+@keyframes neon-glow {
+    0%, 100% {
+        box-shadow: 0 0 10px currentColor, inset 0 0 10px currentColor;
+        border-color: currentColor;
+    }
+    50% {
+        box-shadow: 0 0 20px currentColor, inset 0 0 20px currentColor;
+        border-color: currentColor;
+    }
+}
+
 /* Animations */
 @keyframes fadeIn {
     from {
@@ -195,6 +322,15 @@ body {
     transform: translate(0, 0) !important;
 }
 
+/* Modal */
+#shadesModal.hidden {
+    display: none;
+}
+
+#shadesModal.show {
+    display: flex;
+}
+
 /* Scrollbar Styling */
 ::-webkit-scrollbar {
     width: 10px;
@@ -236,6 +372,18 @@ button:active {
     transform: scale(0.95);
 }
 
+/* Style Tab */
+.style-tab {
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+}
+
+.style-tab.active {
+    background: linear-gradient(135deg, #3B82F6, #8B5CF6) !important;
+    transform: scale(1.05);
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .color-card-content {
@@ -262,6 +410,11 @@ button:active {
     h2 {
         font-size: 1.5rem !important;
     }
+
+    .basic-color-card {
+        min-height: 100px;
+        padding: 16px;
+    }
 }
 
 @media (max-width: 640px) {
@@ -276,6 +429,14 @@ button:active {
 
     .color-hex {
         font-size: 12px;
+    }
+
+    #shadesModal {
+        padding: 8px !important;
+    }
+
+    #shadesModal .glass-effect {
+        max-height: 80vh;
     }
 }
 
