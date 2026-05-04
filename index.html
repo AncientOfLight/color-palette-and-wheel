@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Palette Generator & Interactive Color Wheel</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- iro.js Library for Color Wheel -->
+    <script src="https://iro.js.org/dist/iro.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-white font-sans min-h-screen overflow-x-hidden">
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed top-6 right-6 bg-emerald-500 px-6 py-3 rounded-lg shadow-2xl opacity-0 transform translate-x-96 transition-all duration-300 z-50 flex items-center gap-3">
+        <span class="text-sm font-semibold">✓ Copied to clipboard!</span>
+    </div>
+
+    <!-- Main Container -->
+    <div class="min-h-screen py-8 px-4">
+        <!-- Header -->
+        <header class="text-center mb-12 animate-fade-in">
+            <h1 class="text-5xl md:text-6xl font-bold mb-3 bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent drop-shadow-lg">
+                Color Palette Generator
+            </h1>
+            <p class="text-slate-400 text-lg md:text-xl">
+                Press <kbd class="px-3 py-1 bg-slate-800 border border-slate-700 rounded-md font-mono text-yellow-400">SPACEBAR</kbd> or click Generate
+            </p>
+        </header>
+
+        <!-- Main Content Grid -->
+        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Left Column: Palette Generator -->
+            <div class="lg:col-span-2">
+                <!-- Color Palette Section -->
+                <div class="glass-effect rounded-3xl p-8 mb-8 shadow-2xl border border-slate-700 hover:border-slate-600 transition-all duration-300">
+                    <h2 class="text-2xl md:text-3xl font-bold mb-6 flex items-center gap-3">
+                        <span class="text-3xl">🎨</span> Palette
+                    </h2>
+
+                    <!-- Color Grid -->
+                    <div id="paletteContainer" class="grid grid-cols-2 md:grid-cols-5 gap-3 md:gap-4 mb-8">
+                        <!-- Color cards will be generated here -->
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="flex flex-col md:flex-row gap-3 justify-center">
+                        <button id="generateBtn" class="flex-1 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-lg flex items-center justify-center gap-2">
+                            <span>⚡</span> Generate New Palette
+                        </button>
+                        <button id="exportBtn" class="flex-1 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white font-bold py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-lg flex items-center justify-center gap-2">
+                            <span>💾</span> Export JSON
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Color Wheel Section -->
+                <div class="glass-effect rounded-3xl p-8 shadow-2xl border border-slate-700 hover:border-slate-600 transition-all duration-300">
+                    <h2 class="text-2xl md:text-3xl font-bold mb-6 flex items-center gap-3">
+                        <span class="text-3xl">🎡</span> Interactive Color Wheel
+                    </h2>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+                        <!-- Color Wheel Canvas -->
+                        <div class="flex justify-center">
+                            <div id="color-picker" class="shadow-2xl rounded-2xl"></div>
+                        </div>
+
+                        <!-- Color Information -->
+                        <div class="space-y-4">
+                            <div class="glass-effect rounded-2xl p-6 border border-slate-600">
+                                <p class="text-slate-400 text-sm mb-2">Selected Color</p>
+                                <div id="selectedColorDisplay" class="w-full h-24 rounded-xl mb-3 shadow-inner border-2 border-slate-600 transition-colors duration-300" style="background-color: #3B82F6;"></div>
+                            </div>
+
+                            <div class="grid grid-cols-3 gap-2">
+                                <div class="glass-effect rounded-xl p-3 border border-slate-600">
+                                    <p class="text-slate-400 text-xs mb-1">HEX</p>
+                                    <p id="hexValue" class="text-white font-mono font-bold text-sm cursor-pointer hover:text-blue-400 transition-colors" title="Click to copy">#3B82F6</p>
+                                </div>
+                                <div class="glass-effect rounded-xl p-3 border border-slate-600">
+                                    <p class="text-slate-400 text-xs mb-1">RGB</p>
+                                    <p id="rgbValue" class="text-white font-mono font-bold text-sm">rgb(59, 130, 246)</p>
+                                </div>
+                                <div class="glass-effect rounded-xl p-3 border border-slate-600">
+                                    <p class="text-slate-400 text-xs mb-1">HSL</p>
+                                    <p id="hslValue" class="text-white font-mono font-bold text-sm">hsl(217, 98%, 60%)</p>
+                                </div>
+                            </div>
+
+                            <button id="addToWheelBtn" class="w-full bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white font-bold py-3 px-4 rounded-xl transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-lg flex items-center justify-center gap-2">
+                                <span>➕</span> Add to Palette
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Color Info & Palette History -->
+            <div class="lg:col-span-1">
+                <!-- Statistics Card -->
+                <div class="glass-effect rounded-3xl p-8 shadow-2xl border border-slate-700 hover:border-slate-600 transition-all duration-300 mb-8">
+                    <h3 class="text-xl font-bold mb-6 flex items-center gap-2">
+                        <span>📊</span> Statistics
+                    </h3>
+                    <div class="space-y-4">
+                        <div class="bg-slate-800 rounded-xl p-4 border-l-4 border-blue-500">
+                            <p class="text-slate-400 text-sm">Total Colors</p>
+                            <p class="text-3xl font-bold text-blue-400" id="totalColorsCount">5</p>
+                        </div>
+                        <div class="bg-slate-800 rounded-xl p-4 border-l-4 border-purple-500">
+                            <p class="text-slate-400 text-sm">Locked Colors</p>
+                            <p class="text-3xl font-bold text-purple-400" id="lockedColorsCount">0</p>
+                        </div>
+                        <div class="bg-slate-800 rounded-xl p-4 border-l-4 border-emerald-500">
+                            <p class="text-slate-400 text-sm">Palettes Generated</p>
+                            <p class="text-3xl font-bold text-emerald-400" id="paletteGeneratedCount">0</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Help Card -->
+                <div class="glass-effect rounded-3xl p-8 shadow-2xl border border-slate-700 hover:border-slate-600 transition-all duration-300">
+                    <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
+                        <span>💡</span> How to Use
+                    </h3>
+                    <ul class="space-y-3 text-sm text-slate-300">
+                        <li class="flex gap-2">
+                            <span class="text-blue-400">•</span>
+                            <span>Press <strong>SPACEBAR</strong> to generate new colors</span>
+                        </li>
+                        <li class="flex gap-2">
+                            <span class="text-purple-400">•</span>
+                            <span>Click <strong>🔒</strong> to lock/unlock colors</span>
+                        </li>
+                        <li class="flex gap-2">
+                            <span class="text-pink-400">•</span>
+                            <span>Click HEX code to <strong>copy</strong> to clipboard</span>
+                        </li>
+                        <li class="flex gap-2">
+                            <span class="text-emerald-400">•</span>
+                            <span>Use the <strong>color wheel</strong> for manual selection</span>
+                        </li>
+                        <li class="flex gap-2">
+                            <span class="text-yellow-400">•</span>
+                            <span>Click <strong>Export JSON</strong> to save your palette</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
