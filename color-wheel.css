@@ -1,0 +1,478 @@
+/**
+ * ============================================
+ * Color Wheel Component - Scoped CSS
+ * ============================================
+ * 
+ * Minimal, responsive styling for the ColorWheel component
+ * Uses BEM naming convention and CSS custom properties
+ * No conflicts with external stylesheets
+ */
+
+:root {
+    --color-wheel-border: #e0e0e0;
+    --color-wheel-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    --color-wheel-shadow-hover: 0 12px 32px rgba(0, 0, 0, 0.16);
+    --color-wheel-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ==========================================
+   Color Wheel Container
+   ========================================== */
+
+.color-wheel-wrapper {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 24px;
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    border: 1px solid var(--color-wheel-border);
+    border-radius: 16px;
+    box-shadow: var(--color-wheel-shadow);
+    transition: var(--color-wheel-transition);
+    max-width: 100%;
+}
+
+.color-wheel-wrapper:hover {
+    box-shadow: var(--color-wheel-shadow-hover);
+}
+
+/* ==========================================
+   Canvas Element
+   ========================================== */
+
+.color-wheel-canvas {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    border-radius: 12px;
+    background: white;
+    box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.05);
+    cursor: crosshair;
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    transition: var(--color-wheel-transition);
+}
+
+.color-wheel-canvas:hover {
+    box-shadow: inset 0 2px 12px rgba(0, 0, 0, 0.1);
+}
+
+.color-wheel-canvas:active {
+    cursor: grabbing;
+}
+
+/* ==========================================
+   Color Display Panel
+   ========================================== */
+
+.color-wheel-display {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.color-wheel-swatch {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.color-wheel-preview {
+    width: 100%;
+    min-height: 80px;
+    border-radius: 8px;
+    border: 2px solid var(--color-wheel-border);
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: var(--color-wheel-transition);
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.color-wheel-preview::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(45deg, transparent 48%, rgba(0, 0, 0, 0.1) 49%, rgba(0, 0, 0, 0.1) 51%, transparent 52%);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    pointer-events: none;
+}
+
+.color-wheel-preview:hover::after {
+    opacity: 1;
+}
+
+.color-wheel-preview:active {
+    transform: scale(0.98);
+}
+
+/* ==========================================
+   Color Values Display
+   ========================================== */
+
+.color-wheel-values {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.color-wheel-value-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    background: rgba(0, 0, 0, 0.02);
+    border-radius: 6px;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    font-size: 12px;
+    transition: var(--color-wheel-transition);
+}
+
+.color-wheel-value-item:hover {
+    background: rgba(0, 0, 0, 0.05);
+    border-color: rgba(0, 0, 0, 0.1);
+}
+
+.color-wheel-value-label {
+    font-weight: 600;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    min-width: 40px;
+}
+
+.color-wheel-value-text {
+    font-weight: 700;
+    color: #222;
+    cursor: pointer;
+    transition: color 0.2s ease;
+    user-select: all;
+    -webkit-user-select: all;
+}
+
+.color-wheel-value-text:hover {
+    color: #0066cc;
+}
+
+.color-wheel-value-text:active {
+    color: #0052a3;
+}
+
+/* ==========================================
+   Color Sliders
+   ========================================== */
+
+.color-wheel-sliders {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.color-wheel-slider-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.color-wheel-slider-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.color-wheel-slider-value {
+    color: #0066cc;
+    font-weight: 700;
+}
+
+.color-wheel-slider {
+    width: 100%;
+    height: 6px;
+    border-radius: 3px;
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.05));
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+    cursor: pointer;
+    transition: var(--color-wheel-transition);
+}
+
+/* Webkit browsers (Chrome, Safari, Edge) */
+.color-wheel-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #0066cc, #0052a3);
+    border: 2px solid white;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    cursor: grab;
+    transition: var(--color-wheel-transition);
+}
+
+.color-wheel-slider::-webkit-slider-thumb:hover {
+    box-shadow: 0 4px 12px rgba(0, 102, 204, 0.4);
+    transform: scale(1.1);
+}
+
+.color-wheel-slider::-webkit-slider-thumb:active {
+    cursor: grabbing;
+    transform: scale(0.95);
+}
+
+/* Firefox */
+.color-wheel-slider::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #0066cc, #0052a3);
+    border: 2px solid white;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    cursor: grab;
+    transition: var(--color-wheel-transition);
+}
+
+.color-wheel-slider::-moz-range-thumb:hover {
+    box-shadow: 0 4px 12px rgba(0, 102, 204, 0.4);
+    transform: scale(1.1);
+}
+
+.color-wheel-slider::-moz-range-thumb:active {
+    cursor: grabbing;
+    transform: scale(0.95);
+}
+
+/* ==========================================
+   Button Group
+   ========================================== */
+
+.color-wheel-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.color-wheel-button {
+    flex: 1;
+    padding: 10px 16px;
+    border: 1px solid var(--color-wheel-border);
+    border-radius: 6px;
+    background: white;
+    color: #333;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: var(--color-wheel-transition);
+    outline: none;
+}
+
+.color-wheel-button:hover {
+    border-color: #0066cc;
+    color: #0066cc;
+    background: rgba(0, 102, 204, 0.05);
+    transform: translateY(-1px);
+}
+
+.color-wheel-button:active {
+    transform: translateY(0);
+}
+
+.color-wheel-button--primary {
+    background: linear-gradient(135deg, #0066cc, #0052a3);
+    border-color: #0052a3;
+    color: white;
+}
+
+.color-wheel-button--primary:hover {
+    border-color: #003d7a;
+    background: linear-gradient(135deg, #0052a3, #003d7a);
+    color: white;
+}
+
+/* ==========================================
+   Responsive Design
+   ========================================== */
+
+/* Tablet */
+@media (max-width: 768px) {
+    .color-wheel-wrapper {
+        padding: 16px;
+        gap: 12px;
+    }
+
+    .color-wheel-canvas {
+        max-width: 100%;
+    }
+
+    .color-wheel-display {
+        grid-template-columns: 1fr;
+    }
+
+    .color-wheel-button {
+        padding: 8px 12px;
+        font-size: 11px;
+    }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+    .color-wheel-wrapper {
+        padding: 12px;
+        gap: 10px;
+        border-radius: 12px;
+    }
+
+    .color-wheel-value-item {
+        padding: 6px 10px;
+        font-size: 11px;
+    }
+
+    .color-wheel-slider {
+        height: 5px;
+    }
+
+    .color-wheel-slider::-webkit-slider-thumb {
+        width: 14px;
+        height: 14px;
+    }
+
+    .color-wheel-slider::-moz-range-thumb {
+        width: 14px;
+        height: 14px;
+    }
+
+    .color-wheel-button {
+        padding: 8px 10px;
+        font-size: 10px;
+    }
+}
+
+/* ==========================================
+   Accessibility
+   ========================================== */
+
+.color-wheel-canvas:focus-visible {
+    outline: 2px solid #0066cc;
+    outline-offset: 2px;
+}
+
+.color-wheel-button:focus-visible {
+    outline: 2px solid #0066cc;
+    outline-offset: 2px;
+}
+
+.color-wheel-slider:focus-visible {
+    outline: 2px solid #0066cc;
+    outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: more) {
+    .color-wheel-wrapper {
+        border-width: 2px;
+    }
+
+    .color-wheel-value-item {
+        border-width: 1.5px;
+    }
+
+    .color-wheel-button {
+        border-width: 1.5px;
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .color-wheel-wrapper,
+    .color-wheel-canvas,
+    .color-wheel-button,
+    .color-wheel-slider::-webkit-slider-thumb,
+    .color-wheel-slider::-moz-range-thumb {
+        transition: none;
+    }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --color-wheel-border: #3a3a3a;
+        --color-wheel-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+        --color-wheel-shadow-hover: 0 12px 32px rgba(0, 0, 0, 0.5);
+    }
+
+    .color-wheel-wrapper {
+        background: linear-gradient(135deg, #1e1e1e 0%, #2a2a2a 100%);
+    }
+
+    .color-wheel-canvas {
+        background: #0d0d0d;
+    }
+
+    .color-wheel-value-item {
+        background: rgba(255, 255, 255, 0.05);
+        border-color: rgba(255, 255, 255, 0.1);
+        color: #e0e0e0;
+    }
+
+    .color-wheel-value-item:hover {
+        background: rgba(255, 255, 255, 0.1);
+        border-color: rgba(255, 255, 255, 0.15);
+    }
+
+    .color-wheel-value-label {
+        color: #999;
+    }
+
+    .color-wheel-value-text {
+        color: #e0e0e0;
+    }
+
+    .color-wheel-value-text:hover {
+        color: #66b3ff;
+    }
+
+    .color-wheel-slider-label {
+        color: #999;
+    }
+
+    .color-wheel-slider-value {
+        color: #66b3ff;
+    }
+
+    .color-wheel-slider {
+        background: linear-gradient(90deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+    }
+
+    .color-wheel-button {
+        background: #2a2a2a;
+        border-color: #3a3a3a;
+        color: #e0e0e0;
+    }
+
+    .color-wheel-button:hover {
+        border-color: #66b3ff;
+        color: #66b3ff;
+        background: rgba(102, 179, 255, 0.1);
+    }
+
+    .color-wheel-button--primary {
+        background: linear-gradient(135deg, #0066cc, #0052a3);
+        border-color: #0052a3;
+    }
+
+    .color-wheel-button--primary:hover {
+        background: linear-gradient(135deg, #0052a3, #003d7a);
+    }
+}
