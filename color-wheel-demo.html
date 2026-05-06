@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Wheel Component - Demo & Documentation</title>
+    <link rel="stylesheet" href="color-wheel.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .demo-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+
+        header h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .demo-section {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+        }
+
+        .demo-section h2 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #667eea;
+        }
+
+        .demo-section h3 {
+            font-size: 1.1rem;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            color: #555;
+        }
+
+        .demo-section code {
+            display: block;
+            background: #f5f5f5;
+            padding: 12px;
+            border-radius: 6px;
+            overflow-x: auto;
+            font-size: 0.9rem;
+            font-family: 'Monaco', 'Menlo', monospace;
+            margin: 10px 0;
+            color: #d63384;
+        }
+
+        .demo-section pre {
+            background: #f5f5f5;
+            padding: 16px;
+            border-radius: 6px;
+            overflow-x: auto;
+            font-size: 0.85rem;
+            font-family: 'Monaco', 'Menlo', monospace;
+            margin: 10px 0;
+            line-height: 1.5;
+        }
+
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .feature-list li {
+            padding: 8px 0;
+            padding-left: 28px;
+            position: relative;
+        }
+
+        .feature-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .comparison-table th {
+            background: #f5f5f5;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .comparison-table tr:hover {
+            background: #f9f9f9;
+        }
+
+        .code-example {
+            background: #f5f5f5;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        .api-section {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            margin-bottom: 40px;
+        }
+
+        .api-section h2 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: #667eea;
+        }
+
+        .api-method {
+            margin-bottom: 30px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .api-method:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .api-method h3 {
+            color: #764ba2;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+
+        .api-param {
+            background: #f9f9f9;
+            padding: 12px;
+            border-radius: 6px;
+            margin: 10px 0;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.9rem;
+        }
+
+        .return-type {
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        footer {
+            text-align: center;
+            color: white;
+            padding: 20px;
+            opacity: 0.9;
+        }
+
+        .color-formats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 12px;
+            margin: 15px 0;
+        }
+
+        .format-badge {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 12px;
+            border-radius: 6px;
+            text-align: center;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .comparison-table {
+                font-size: 0.9rem;
+            }
+
+            .comparison-table th,
+            .comparison-table td {
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <!-- Header -->
+        <header>
+            <h1>🎡 Color Wheel Component</h1>
+            <p>A modular, interactive Color Wheel using HTML5 Canvas and vanilla JavaScript</p>
+        </header>
+
+        <!-- Main Demo Grid -->
+        <div class="content-grid">
+            <!-- Demo 1: Basic Implementation -->
+            <div class="demo-section">
+                <h2>Basic Implementation</h2>
+                <p>The simplest way to initialize a Color Wheel:</p>
+                <div class="code-example">
+                    <pre>&lt;div id="color-wheel"&gt;&lt;/div&gt;
+
+&lt;script src="color-wheel.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+  const wheel = new ColorWheel({
+    container: '#color-wheel',
+    size: 300
+  });
+&lt;/script&gt;</pre>
+                </div>
+                <p>This creates a 300x300px interactive color wheel that you can click and drag to select colors.</p>
+            </div>
+
+            <!-- Demo 2: With Callbacks -->
+            <div class="demo-section">
+                <h2>With Callbacks</h2>
+                <p>Listen to color changes in real-time:</p>
+                <div class="code-example">
+                    <pre>const wheel = new ColorWheel({
+  container: '#color-wheel',
+  size: 300,
+  onColorChange: (color) => {
+    console.log('HEX:', color.hex);
+    console.log('RGB:', color.rgb);
+    console.log('HSL:', color.hsl);
+    console.log('HSV:', color.hsv);
+  },
+  onColorSelect: (color) => {
+    console.log('Selected:', color);
+  }
+});</pre>
+                </div>
+                <p><strong>onColorChange</strong> fires during dragging, <strong>onColorSelect</strong> fires on mouse/touch release.</p>
+            </div>
+
+            <!-- Demo 3: Color Formats -->
+            <div class="demo-section">
+                <h2>Output Formats</h2>
+                <p>The Color Wheel returns colors in multiple formats:</p>
+                <div class="color-formats">
+                    <div class="format-badge">HEX: #FF0000</div>
+                    <div class="format-badge">RGB: rgb(255, 0, 0)</div>
+                    <div class="format-badge">HSL: hsl(0, 100%, 50%)</div>
+                    <div class="format-badge">HSV: {h, s, v}</div>
+                </div>
+                <div class="code-example">
+                    <pre>const color = wheel.getColor();
+// {
+//   hex: '#FF0000',
+//   rgb: { r: 255, g: 0, b: 0 },
+//   hsl: { h: 0, s: 100, l: 50 },
+//   hsv: { h: 0, s: 100, v: 100 }
+// }</pre>
+                </div>
+            </div>
+
+            <!-- Demo 4: Features -->
+            <div class="demo-section">
+                <h2>Key Features</h2>
+                <ul class="feature-list">
+                    <li>360-degree HSV color wheel</li>
+                    <li>Click and drag interaction</li>
+                    <li>Touch support for mobile devices</li>
+                    <li>Real-time color updates</li>
+                    <li>Multiple output formats</li>
+                    <li>Responsive canvas rendering</li>
+                    <li>Visual selector marker</li>
+                    <li>Saturation reference rings</li>
+                    <li>ES6+ class-based architecture</li>
+                    <li>Zero dependencies</li>
+                    <li>Modular and scoped CSS</li>
+                </ul>
+            </div>
+
+            <!-- Demo 5: Browser Support -->
+            <div class="demo-section">
+                <h2>Browser Support</h2>
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Browser</th>
+                            <th>Support</th>
+                            <th>Version</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Chrome</td>
+                            <td>✓ Full</td>
+                            <td>45+</td>
+                        </tr>
+                        <tr>
+                            <td>Firefox</td>
+                            <td>✓ Full</td>
+                            <td>38+</td>
+                        </tr>
+                        <tr>
+                            <td>Safari</td>
+                            <td>✓ Full</td>
+                            <td>9+</td>
+                        </tr>
+                        <tr>
+                            <td>Edge</td>
+                            <td>✓ Full</td>
+                            <td>12+</td>
+                        </tr>
+                        <tr>
+                            <td>Mobile Safari</td>
+                            <td>✓ Full</td>
+                            <td>9+</td>
+                        </tr>
+                        <tr>
+                            <td>Chrome Mobile</td>
+                            <td>✓ Full</td>
+                            <td>45+</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Demo 6: Configuration Options -->
+            <div class="demo-section">
+                <h2>Configuration Options</h2>
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Option</th>
+                            <th>Type</th>
+                            <th>Default</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>container</td>
+                            <td>String</td>
+                            <td>'#color-wheel'</td>
+                        </tr>
+                        <tr>
+                            <td>size</td>
+                            <td>Number</td>
+                            <td>300</td>
+                        </tr>
+                        <tr>
+                            <td>initialColor</td>
+                            <td>String (HEX)</td>
+                            <td>'#FF0000'</td>
+                        </tr>
+                        <tr>
+                            <td>onColorChange</td>
+                            <td>Function</td>
+                            <td>() => {}</td>
+                        </tr>
+                        <tr>
+                            <td>onColorSelect</td>
+                            <td>Function</td>
+                            <td>() => {}</td>
+                        </tr>
+                        <tr>
+                            <td>showSaturationRadius</td>
+                            <td>Boolean</td>
+                            <td>true</td>
+                        </tr>
+                        <tr>
+                            <td>enableTouch</td>
+                            <td>Boolean</td>
+                            <td>true</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- API Documentation -->
+        <div class="api-section full-width">
+            <h2>API Reference</h2>
+
+            <div class="api-method">
+                <h3>new ColorWheel(options)</h3>
+                <p>Creates a new Color Wheel instance.</p>
+                <div class="api-param">
+                    <strong>Parameters:</strong><br>
+                    options (Object) - Configuration object with properties listed above<br><br>
+                    <strong class="return-type">Returns:</strong> ColorWheel instance
+                </div>
+                <div class="code-example">
+                    <pre>const wheel = new ColorWheel({
+  container: '#my-wheel',
+  size: 250,
+  initialColor: '#3B82F6',
+  onColorChange: (color) => updatePreview(color)
+});</pre>
+                </div>
+            </div>
+
+            <div class="api-method">
+                <h3>setColor(hexColor)</h3>
+                <p>Programmatically set the color on the wheel.</p>
+                <div class="api-param">
+                    <strong>Parameters:</strong><br>
+                    hexColor (String) - HEX color code (e.g., '#FF5733')<br><br>
+                    <strong class="return-type">Returns:</strong> void
+                </div>
+                <div class="code-example">
+                    <pre>wheel.setColor('#FF5733');</pre>
+                </div>
+            </div>
+
+            <div class="api-method">
+                <h3>getColor()</h3>
+                <p>Get the currently selected color in all formats.</p>
+                <div class="api-param">
+                    <strong>Parameters:</strong> None<br><br>
+                    <strong class="return-type">Returns:</strong> Object with properties: hex, rgb, hsl, hsv
+                </div>
+                <div class="code-example">
+                    <pre>const selectedColor = wheel.getColor();
+console.log(selectedColor.hex);    // '#FF5733'
+console.log(selectedColor.rgb);    // { r: 255, g: 87, b: 51 }
+console.log(selectedColor.hsl);    // { h: 10, s: 100, l: 60 }
+console.log(selectedColor.hsv);    // { h: 10, s: 80, v: 100 }</pre>
+                </div>
+            </div>
+
+            <div class="api-method">
+                <h3>destroy()</h3>
+                <p>Clean up and remove the Color Wheel component from the DOM.</p>
+                <div class="api-param">
+                    <strong>Parameters:</strong> None<br><br>
+                    <strong class="return-type">Returns:</strong> void
+                </div>
+                <div class="code-example">
+                    <pre>wheel.destroy(); // Removes canvas and listeners</pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- Advanced Usage -->
+        <div class="api-section full-width">
+            <h2>Advanced Usage Examples</h2>
+
+            <h3>Example 1: Multiple Wheels</h3>
+            <div class="code-example">
+                <pre>// Create a palette generator with multiple wheels
+const wheels = [];
+const colors = ['#FF0000', '#00FF00', '#0000FF'];
+
+colors.forEach((color, index) => {
+  const wheel = new ColorWheel({
+    container: `#wheel-${index}`,
+    size: 250,
+    initialColor: color,
+    onColorSelect: (selectedColor) => {
+      savePaletteColor(index, selectedColor.hex);
+    }
+  });
+  wheels.push(wheel);
+});
+
+// Later: Update all wheels
+function updateAllWheels(newColors) {
+  wheels.forEach((wheel, index) => {
+    wheel.setColor(newColors[index]);
+  });
+}</pre>
+            </div>
+
+            <h3>Example 2: Synchronized Wheels</h3>
+            <div class="code-example">
+                <pre>const primaryWheel = new ColorWheel({
+  container: '#primary',
+  size: 300,
+  onColorChange: (color) => {
+    // Update secondary wheel with same color
+    secondaryWheel.setColor(color.hex);
+  }
+});
+
+const secondaryWheel = new ColorWheel({
+  container: '#secondary',
+  size: 200
+});</pre>
+            </div>
+
+            <h3>Example 3: Integration with Color Inputs</h3>
+            <div class="code-example">
+                <pre>const wheel = new ColorWheel({
+  container: '#color-wheel',
+  size: 300,
+  onColorChange: (color) => {
+    // Update input fields
+    document.getElementById('hex-input').value = color.hex;
+    document.getElementById('rgb-input').value = 
+      `rgb(${color.rgb.r}, ${color.rgb.g}, ${color.rgb.b})`;
+    
+    // Update preview
+    document.getElementById('preview').style.background = color.hex;
+  }
+});
+
+// Allow input to update wheel
+document.getElementById('hex-input').addEventListener('change', (e) => {
+  wheel.setColor(e.target.value);
+});</pre>
+            </div>
+
+            <h3>Example 4: Real-time Theme Customizer</h3>
+            <div class="code-example">
+                <pre>const wheel = new ColorWheel({
+  container: '#theme-wheel',
+  size: 300,
+  onColorChange: (color) => {
+    // Update CSS variables in real-time
+    document.documentElement.style.setProperty(
+      '--primary-color', 
+      color.hex
+    );
+    
+    // Update document.body background
+    document.body.style.setProperty(
+      '--primary-rgb',
+      `${color.rgb.r}, ${color.rgb.g}, ${color.rgb.b}`
+    );
+  }
+});</pre>
+            </div>
+        </div>
+
+        <!-- Performance Tips -->
+        <div class="api-section full-width">
+            <h2>Performance Optimization Tips</h2>
+            <div class="code-example">
+                <pre>// Tip 1: Debounce color changes for heavy operations
+const wheel = new ColorWheel({
+  container: '#wheel',
+  onColorChange: debounce((color) => {
+    performHeavyOperation(color);
+  }, 100)
+});
+
+function debounce(func, delay) {
+  let timeoutId;
+  return function(...args) {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => func(...args), delay);
+  };
+}
+
+// Tip 2: Use onColorSelect for final operations
+// and onColorChange for visual feedback only
+const wheel = new ColorWheel({
+  container: '#wheel',
+  onColorChange: (color) => {
+    // Quick: Update preview instantly
+    preview.style.background = color.hex;
+  },
+  onColorSelect: (color) => {
+    // Heavy: Save to database after user finishes
+    saveColorToDatabase(color);
+  }
+});
+
+// Tip 3: Destroy wheels when no longer needed
+function cleanupColorWheels() {
+  wheels.forEach(wheel => wheel.destroy());
+  wheels = [];
+}</pre>
+            </div>
+        </div>
+
+        <!-- Interactive Demo -->
+        <div class="api-section full-width">
+            <h2>Live Interactive Demo</h2>
+            <div id="live-demo" class="color-wheel-wrapper" style="margin: 20px auto; max-width: 400px;"></div>
+            <p style="text-align: center; margin-top: 20px; color: #666;">
+                Click or drag on the color wheel above to select colors. 
+                The color codes will update in real-time.
+            </p>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <p>© 2026 Color Wheel Component • Built with HTML5 Canvas & Vanilla JavaScript</p>
+        </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script src="color-wheel.js"></script>
+    <script>
+        // Initialize live demo
+        const liveDemo = new ColorWheel({
+            container: '#live-demo',
+            size: 300,
+            initialColor: '#667eea',
+            onColorChange: (color) => {
+                console.log('Current color:', color.hex);
+            },
+            onColorSelect: (color) => {
+                console.log('Selected color:', color.hex);
+                alert(`Color selected: ${color.hex}`);
+            }
+        });
+
+        // Log initial state
+        console.log('Color Wheel Demo initialized successfully!');
+        console.log('Current color:', liveDemo.getColor());
+    </script>
+</body>
+</html>
